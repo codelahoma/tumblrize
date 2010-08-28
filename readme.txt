@@ -3,7 +3,7 @@ Author: Julien Ott and Meitar Moscovitz
 Plugin URL: http://tumblrize.ijulien.com/
 Tags: tumblr, post, posterous
 Requires at least: 2.6
-Tested up to: 2.8.5
+Tested up to: 2.9.2
 Stable tag: 1.4
 
 Tumblrize crossposts your published WordPress entries to Tumblr and Posterous. All you need is a Tumblr account. Changes you make to your WordPress posts are reflected in your Tumblr posts.
@@ -54,7 +54,10 @@ No. Currently Tumblrize only supports cross-posting public posts (i.e., posts wi
 == Changelog ==
 
 = 1.4 =
-* 21/04/2010: v.1.4 - Support for multiple authors Tumblr blogs and bug fixes
+* 13/4/2010: v.1.4 - New feature: Multiple author support for shared Tumblr blogs.
+** WordPress users can override the plugin's default Tumblr credentials with their own account information. Tumblrize uses the user-specific credentials to crosspost content and associate it with the appropriate Tumblr user. If no user-specific credentials are entered, Tumblrize falls back to the plugin-wide settings.
+** Improve clarity, grammar, of an error message.
+** Fix bug where uninstall routine failed to clear the category exclusion options.
 
 = 1.3.6 =
 * 30/10/2009: v.1.3.6 - Select categories that will never be crossposted. Useful if you also use another crossposting plugin like Twitter Tools and you don't want to create an endless crossposting loop.
@@ -118,7 +121,7 @@ No. Currently Tumblrize only supports cross-posting public posts (i.e., posts wi
 
 See the [Tumblrize homepage](http://log.ijulien.com/post/193997383/tumblrize) for more details or help.
 
-Maintaining this plugin is a labor of love. However, if you like it, please consider [purchasing one of Meitar's web development books](http://www.amazon.com/gp/redirect.html?ie=UTF8&location=http%3A%2F%2Fwww.amazon.com%2Fs%3Fie%3DUTF8%26redirect%3Dtrue%26sort%3Drelevancerank%26search-type%3Dss%26index%3Dbooks%26ref%3Dntt%255Fathr%255Fdp%255Fsr%255F2%26field-author%3DMeitar%2520Moscovitz&tag=maymaydotnet-20&linkCode=ur2&camp=1789&creative=390957). We appreciate your support!
+Maintaining this plugin is a labor of love. However, if you like it, please consider [buying Julien something off his Amazon wishlist](http://www.amazon.co.uk/registry/wishlist/3OIH7JGBVG45G/), or [purchasing one of Meitar's web development books](http://www.amazon.com/gp/redirect.html?ie=UTF8&location=http%3A%2F%2Fwww.amazon.com%2Fs%3Fie%3DUTF8%26redirect%3Dtrue%26sort%3Drelevancerank%26search-type%3Dss%26index%3Dbooks%26ref%3Dntt%255Fathr%255Fdp%255Fsr%255F2%26field-author%3DMeitar%2520Moscovitz&tag=maymaydotnet-20&linkCode=ur2&camp=1789&creative=390957). We appreciate your support!
 
 Known issues include:
 

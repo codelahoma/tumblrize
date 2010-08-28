@@ -3,7 +3,7 @@
 Plugin Name: Tumblrize
 Plugin URI: http://tumblrize.ijulien.com/
 Description: Automatically crossposts to your Tumblr blog when you publish a post on your WordPress blog.
-Version: 1.3.6
+Version: 1.4
 Author: <a href="http://ijulien.com/">Julien Ott</a> and <a href="http://maymay.net/">Meitar Moscovitz</a>
 Author URI: http://ijulien.com
 */
@@ -177,6 +177,13 @@ class TumblrizePlugin {
             $post_video = "http://www.youtube.com/watch?v=".$matches[1];
         }
 
+        // Override default plugin credentials if user supplies their own.
+        $cur_user          = wp_get_current_user();
+        $cur_user_twpemail = get_usermeta($cur_user->ID, 'tumblrize_wpuser_email');
+        $this->tusername   = ($cur_user_twpemail) ? $cur_user_twpemail : $this->tusername;
+        $cur_user_twppass  = get_usermeta($cur_user->ID, 'tumblrize_wpuser_password');
+        $this->tpassword   = ($cur_user_twppass) ? $cur_user_twppass : $this->tusername;
+
         // SEND Data
         if (!$this->tusername || !$this->tpassword || !$post_body) {
             $this->add_admin_message('error', 'Entry not crossposted! Missing Tumblr post body, or Tumblrize is misconfigured.');
@@ -264,7 +271,7 @@ class TumblrizePlugin {
                 $this->add_admin_message('error',
                     'Tumblrize could not crosspost this entry because Tumblr has rejected your username or password.');
                 $this->add_admin_message('updated',
-                    'Are you sure your Tumblr username and password is correct? Tumblrize is having trouble accessing your account.');
+                    'Are you sure you entered your Tumblr email and password correctly? Tumblrize is having trouble accessing your account.');
             } else if ($r && $r['status'] === 400) { // Tumblr errors.
                 $this->add_admin_message('error',
                     'Tumblr experienced errors trying to save the data we sent it.');
@@ -416,7 +423,56 @@ class TumblrizePlugin {
         return;
     }
 
-}
+} // END TumblrizePlugin();
+
+/**
+ * User-specific Tumblrize functions, preferences, etc.
+ */
+class TumblrizeWPUser extends TumblrizePlugin {
+
+    /**
+     * Constructor.
+     */
+    function TumblrizeWPUser () {
+        // Empty.
+    }
+
+    /**
+     * Displays additional options in the user profile.
+     */
+    function show_user_options ($user) {
+?>
+<h3>Tumblrize User Options</h3>
+<table class="form-table" summary="Options to configure Tumblrize for your posts.">
+    <tr>
+        <th><label for="tumblrize_wpuser_email">Tumblr Email</label></th>
+        <td>
+            <input type="text" name="tumblrize_wpuser_email" id="tumblrize_wpuser_email" value="<?php print esc_attr(get_the_author_meta('tumblrize_wpuser_email', $user->ID)); ?>" class="regular-text" />
+            <span class="description">Enter the email address you use to login to Tumblr.</span>
+        </td>
+    </tr>
+    <tr>
+        <th><label for="tumblrize_wpuser_password">Tumblr Password</label></th>
+        <td>
+            <input type="password" name="tumblrize_wpuser_password" id="tumblrize_wpuser_password" value="<?php print esc_attr(get_the_author_meta('tumblrize_wpuser_password', $user->ID)); ?>" class="regular-text" />
+            <span class="description">Enter the password you use to login to Tumblr.</span>
+        </td>
+    </tr>
+</table>
+<?
+    }
+
+    /**
+     * Saves entered options.
+     */
+    function save_user_options ($user_id) {
+        if (!current_user_can('edit_user', $user_id)) { return false; }
+
+        update_usermeta($user_id, 'tumblrize_wpuser_email', $_POST['tumblrize_wpuser_email']);
+        update_usermeta($user_id, 'tumblrize_wpuser_password', $_POST['tumblrize_wpuser_password']);
+    }
+
+} // END TumblrizeWPUser();
 
 $tumblrize = new TumblrizePlugin();
 
@@ -425,6 +481,13 @@ $tumblrize = new TumblrizePlugin();
  *************************/
 
 add_action('admin_notices', array($tumblrize, 'show_admin_messages'));
+
+// Display user options in profile.
+add_action('show_user_profile', array('TumblrizeWPUser', 'show_user_options'));
+add_action('edit_user_profile', array('TumblrizeWPUser', 'show_user_options'));
+// Save options when updated from profile.
+add_action('personal_options_update', array('TumblrizeWPUser', 'save_user_options'));
+add_action('edit_user_profile_update', array('TumblrizeWPUser', 'save_user_options'));
 
 function tumblrize_menu () {
   add_options_page('Tumblrize', 'Tumblrize', 8, __FILE__, 'tumblrize_options');
@@ -603,6 +666,8 @@ function tumblrize_options () {
                 <th scope="row"><label for="tumblrize_tumblr_email">Tumblr Email</label></th>
                 <td>
                     <input type="text" id="tumblrize_tumblr_email" name="tumblrize_tumblr_email" autocomplete="off" value="<?php echo get_option('tumblrize_tumblr_email'); ?>" />
+                    <span class="setting-description">Provide a default Tumblr account for authors to use to crosspost content.</span><br />
+                    <span class="description">To force users to provide their own credentials, enter <code>NONE</code> here, and in the <em>Tumblr Password</em> field, below.</span>
                 </td>
             </tr>
 
@@ -610,6 +675,8 @@ function tumblrize_options () {
                 <th scope="row"><label for="tumblrize_tumblr_password">Tumblr Password</label></th>
                 <td>
                     <input type="password" id="tumblrize_tumblr_password" name="tumblrize_tumblr_password" autocomplete="off" value="<?php echo get_option('tumblrize_tumblr_password'); ?>" />
+                    <span class="setting-description">Provide the password for the default Tumblr account.</span><br />
+                    <span class="description">To force users to provide their own credentials, enter <code>NONE</code> here, and in the <em>Tumblr Email</em> field, above.</span>
                 </td>
             </tr>
 

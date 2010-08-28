@@ -36,5 +36,16 @@ if ( get_option('tumblrize_purge_database') ) {
     delete_option('tumblrize_tumblr_group');
     delete_option('tumblrize_tumblr_password');
     delete_option('tumblrize_tumblr_posterous');
+    delete_option('tumblrize_exclude_cats');
+
+    // Delete user-specific Tumblr credentials.
+    global $wpdb;
+    $wpuser_ids = $wpdb->get_col($wpdb->prepare(
+            "SELECT $wpdb->users.ID FROM $wpdb->users ORDER BY %s ASC", 'ID'
+        ));
+    foreach ($wpuser_ids as $wpuser_id) {
+        delete_usermeta($wpuser_id, 'tumblrize_wpuser_email');
+        delete_usermeta($wpuser_id, 'tumblrize_wpuser_password');
+    }
 }
 ?>
