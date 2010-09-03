@@ -182,7 +182,7 @@ class TumblrizePlugin {
         $cur_user_twpemail = get_usermeta($cur_user->ID, 'tumblrize_wpuser_email');
         $this->tusername   = ($cur_user_twpemail) ? $cur_user_twpemail : $this->tusername;
         $cur_user_twppass  = get_usermeta($cur_user->ID, 'tumblrize_wpuser_password');
-        $this->tpassword   = ($cur_user_twppass) ? $cur_user_twppass : $this->tusername;
+        $this->tpassword   = ($cur_user_twppass) ? $cur_user_twppass : $this->tpassword;
 
         // SEND Data
         if (!$this->tusername || !$this->tpassword || !$post_body) {
