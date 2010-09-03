@@ -3,7 +3,7 @@
 Plugin Name: Tumblrize
 Plugin URI: http://tumblrize.ijulien.com/
 Description: Automatically crossposts to your Tumblr blog when you publish a post on your WordPress blog.
-Version: 1.4.1
+Version: 1.4.2
 Author: <a href="http://ijulien.com/">Julien Ott</a> and <a href="http://maymay.net/">Meitar Moscovitz</a>
 Author URI: http://ijulien.com
 */
@@ -33,7 +33,7 @@ define('WP_DEBUG', true);
 // DON'T use Tumblrize for SPAM.
 
 if (!defined('TUMBLRIZE_PLUGIN_VERISON')) {
-    define('TUMBLRIZE_PLUGIN_VERSION', '1.3.6');
+    define('TUMBLRIZE_PLUGIN_VERSION', '1.4.2');
 } else { die('A constant named TUMBLRIZE_PLUGIN_VERSION has already been defined.'); }
 
 // Load helper functions.
@@ -178,11 +178,11 @@ class TumblrizePlugin {
         }
 
         // Override default plugin credentials if user supplies their own.
-        // $cur_user          = wp_get_current_user();
-        // $cur_user_twpemail = get_usermeta($cur_user->ID, 'tumblrize_wpuser_email');
-        // $this->tusername   = ($cur_user_twpemail) ? $cur_user_twpemail : $this->tusername;
-        // $cur_user_twppass  = get_usermeta($cur_user->ID, 'tumblrize_wpuser_password');
-        // $this->tpassword   = ($cur_user_twppass) ? $cur_user_twppass : $this->tusername;
+        $cur_user          = wp_get_current_user();
+        $cur_user_twpemail = get_usermeta($cur_user->ID, 'tumblrize_wpuser_email');
+        $this->tusername   = ($cur_user_twpemail) ? $cur_user_twpemail : $this->tusername;
+        $cur_user_twppass  = get_usermeta($cur_user->ID, 'tumblrize_wpuser_password');
+        $this->tpassword   = ($cur_user_twppass) ? $cur_user_twppass : $this->tusername;
 
         // SEND Data
         if (!$this->tusername || !$this->tpassword || !$post_body) {

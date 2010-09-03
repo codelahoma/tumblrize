@@ -53,8 +53,11 @@ No. Currently Tumblrize only supports cross-posting public posts (i.e., posts wi
 
 == Changelog ==
 
+= 1.4.2 =
+* 5/9/2010: v.1.4.2 - Re-enables user-specific credentials, fixes bug in plugin-wide credentials option fallback.
+
 = 1.4.1 =
-* 4/9/2010: v.1.4.1 - Fixes crendentials issue.
+* 4/9/2010: v.1.4.1 - Disables per-user specific credentials; workaround crendentials issue.
 
 = 1.4 =
 * 13/4/2010: v.1.4 - New feature: Multiple author support for shared Tumblr blogs.
