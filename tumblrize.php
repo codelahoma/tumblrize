@@ -459,7 +459,7 @@ class TumblrizeWPUser extends TumblrizePlugin {
         </td>
     </tr>
 </table>
-<?
+<?php
     }
 
     /**
