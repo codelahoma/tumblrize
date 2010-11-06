@@ -4,7 +4,7 @@ Plugin URL: http://tumblrize.ijulien.com/
 Tags: tumblr, post, posterous
 Requires at least: 2.6
 Tested up to: 3.0.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 
 Tumblrize crossposts your published WordPress entries to Tumblr and Posterous. All you need is a Tumblr account. Changes you make to your WordPress posts are reflected in your Tumblr posts.
 
@@ -52,6 +52,10 @@ No. Currently Tumblrize only supports cross-posting public posts (i.e., posts wi
 2. The Tumblrize custom post editing box, allowing you to specify individual Tumblrize options on a per-post basis.
 
 == Changelog ==
+
+= 1.4.3 =
+* Support for YouTube's `<iframe>` style embed code.
+* Fix use of short open tags to use full `<?php` style open tags.
 
 = 1.4.2 =
 * 5/9/2010: v.1.4.2 - Re-enables user-specific credentials, fixes bug in plugin-wide credentials option fallback.

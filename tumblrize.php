@@ -3,7 +3,7 @@
 Plugin Name: Tumblrize
 Plugin URI: http://tumblrize.ijulien.com/
 Description: Automatically crossposts to your Tumblr blog when you publish a post on your WordPress blog.
-Version: 1.4.2
+Version: 1.4.3
 Author: <a href="http://ijulien.com/">Julien Ott</a> and <a href="http://maymay.net/">Meitar Moscovitz</a>
 Author URI: http://ijulien.com
 */
@@ -33,7 +33,7 @@ define('WP_DEBUG', true);
 // DON'T use Tumblrize for SPAM.
 
 if (!defined('TUMBLRIZE_PLUGIN_VERISON')) {
-    define('TUMBLRIZE_PLUGIN_VERSION', '1.4.2');
+    define('TUMBLRIZE_PLUGIN_VERSION', '1.4.3');
 } else { die('A constant named TUMBLRIZE_PLUGIN_VERSION has already been defined.'); }
 
 // Load helper functions.
