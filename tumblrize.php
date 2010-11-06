@@ -171,7 +171,9 @@ class TumblrizePlugin {
             $quote_source = ($matches[1]) ? "<a href=\"{$matches[1]}\" title=\"Visit quotation source.\">{$matches[1]}</a>" : '';
         } else if ('video' === $post_type) {
             // Currently fetches YouTube's video ID from embedded code and sends the URL to Tumblr
-            $pattern = '/youtube\.com\/v\/([\w\-]+)/';
+            // The $pattern will find both <embed> style code (using 'v'),
+            // or <iframe> style code (using 'embed') in the URL.
+            $pattern= '/youtube\.com\/(?:v|embed)\/([\w\-]+)/';
             $matches = array();
             preg_match($pattern, $post_body, $matches);
             $post_video = "http://www.youtube.com/watch?v=".$matches[1];
